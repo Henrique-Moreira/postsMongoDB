@@ -1,6 +1,7 @@
 package com.iftm.postsMongoDB.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,5 +20,11 @@ public class UserService {
 	public List<UserDTO> findAll() {
 		List<User> list = repository.findAll();
 		return list.stream().map(x -> new UserDTO(x)).collect(Collectors.toList());
+	}
+	
+	public UserDTO findById(String id) {
+		Optional<User> result = repository.findById(id);
+		User entity = result.orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado"));
+		return new UserDTO(entity);
 	}
 }
