@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.iftm.postsMongoDB.models.dto.PostDTO;
 import com.iftm.postsMongoDB.models.dto.UserDTO;
 import com.iftm.postsMongoDB.models.entities.User;
 import com.iftm.postsMongoDB.repositories.UserRepository;
@@ -54,5 +55,10 @@ public class UserService {
 	private void copyDtoToEntity(UserDTO dto, User entity) {
 		entity.setName(dto.getName());
 		entity.setEmail(dto.getEmail());
+	}
+	
+	public List<PostDTO> getUserPosts(String id) {
+		User entity = getEntityById(id);
+		return entity.getPosts().stream().map(x -> new PostDTO(x)).collect(Collectors.toList());
 	}
 }
